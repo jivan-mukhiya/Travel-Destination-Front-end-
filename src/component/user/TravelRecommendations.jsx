@@ -30,15 +30,21 @@ const TravelRecommendations = () => {
   }, []);
 
   useEffect(() => {
-    if (!user?.id) return;
-
     const fetchDestinations = async () => {
       setLoading(true);
+      setError(null);
       try {
-        const endpoint =
-          activeFilter === 'Recommendation'
-            ? `http://localhost:9000/api/v1/destination/recommend/${user.id}`
-            : 'http://localhost:9000/api/v1/destination/list';
+        let endpoint;
+        
+        if (activeFilter === 'Recommendation') {
+          if (!user?.id) {
+            throw new Error('Please log in to view recommendations');
+          }
+          endpoint = `http://localhost:9000/api/v1/destination/users/${user.id}`;
+        } else {
+          // Always fetch general list when not in recommendation mode
+          endpoint = 'http://localhost:9000/api/v1/destination/list';
+        }
 
         const response = await fetch(endpoint);
         if (!response.ok) throw new Error(`Server returned ${response.status} status`);
@@ -71,10 +77,14 @@ const TravelRecommendations = () => {
         });
 
         setDestinations(transformedData);
-        setError(null);
       } catch (err) {
         console.error('Fetch error:', err);
         setError(err.message || 'Failed to load destinations');
+        
+        
+        if (err.message.includes('recommendation')) {
+          setActiveFilter('All');
+        }
       } finally {
         setLoading(false);
       }
@@ -88,12 +98,20 @@ const TravelRecommendations = () => {
     sessionStorage.removeItem('user');
     setIsAuthenticated(false);
     setUser(null);
+    setActiveFilter('All');  
     setTimeout(() => navigate('/user/login'), 300);
   };
 
   const getUniqueTypes = () => {
     const types = destinations.map(dest => dest.type).filter(Boolean);
-    return ['All', 'Recommendation', ...new Set(types)].sort();
+    const baseFilters = ['All', ...new Set(types)].sort();
+    
+   
+    if (isAuthenticated) {
+      baseFilters.unshift('Recommendation');
+    }
+    
+    return baseFilters;
   };
 
   const filters = getUniqueTypes();
@@ -106,9 +124,7 @@ const TravelRecommendations = () => {
   ];
 
   const filteredDestinations = destinations.filter(dest => {
-    if (activeFilter === 'Recommendation') return true; // skip local filtering
-
-    const matchesFilter = activeFilter === 'All' || dest.type === activeFilter;
+    const matchesFilter = activeFilter === 'All' || dest.type === activeFilter || activeFilter === 'Recommendation';
     const matchesSearch =
       searchQuery === '' ||
       dest.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

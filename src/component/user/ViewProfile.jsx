@@ -72,7 +72,7 @@ const ViewProfile = () => {
   }
 
   // Format budget range with currency symbol
-  const formattedBudget = `₹${user.budgetMin.toLocaleString()} - ₹${user.budgetMax.toLocaleString()}`;
+  const formattedBudget = `$${user.budgetMin.toLocaleString()} - $${user.budgetMax.toLocaleString()}`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-10 px-4">

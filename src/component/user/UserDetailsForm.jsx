@@ -165,6 +165,13 @@ const UserDetailsForm = () => {
                     <option value="historical">Historical</option>
                     <option value="adventure">Adventure</option>
                     <option value="wildlife">Wildlife</option>
+                    <option value="beach">lake</option>
+                    <option value="mountain">city</option>
+                    <option value="historical">Cultural</option>
+                    <option value="adventure">Trekking</option>
+                    <option value="wildlife">Nature</option>
+                    <option value="wildlife">Pilgrimage</option>
+                    
                   </select>
                 </div>
 

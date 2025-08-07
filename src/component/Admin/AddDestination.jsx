@@ -22,7 +22,7 @@ const AddDestination = () => {
   const [error, setError] = useState(null);
 
   const seasonOptions = ['summer', 'winter', 'spring', 'autumn'];
-  const typeOptions = ['mountain', 'lake', 'city', 'beach', 'historical', 'wildlife'];
+  const typeOptions = ['mountain', 'lake', 'city', 'beach', 'historical', 'wildlife','Adventure','Cultural', 'Trekking','Nature','Pilgrimage'];
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -115,6 +115,16 @@ function Destination({ searchTerm }) {
     return array.join(", ");
   };
 
+  // Function to truncate description to 10 words
+  const truncateDescription = (description) => {
+    if (!description) return "N/A";
+    
+    const words = description.split(' ');
+    if (words.length <= 10) return description;
+    
+    return words.slice(0, 10).join(' ') + '...';
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -210,7 +220,7 @@ function Destination({ searchTerm }) {
                   {formatDate(destination.addedTime || destination.localDateTime)}
                 </td>
                 <td className="px-6 py-4">
-                  {destination.description || "N/A"}
+                  {truncateDescription(destination.description)}
                 </td>
                 <td className="px-6 py-4 flex items-center justify-center space-x-2">
                   <Button

@@ -33,20 +33,19 @@ const FilterControls = ({
             <FiChevronDown className={`transition-transform ${showFilters ? 'rotate-180' : ''}`} />
           </button>
 
-          {(activeFilter !== 'All' || priceRange || searchQuery) && (
-            <AuthButton
-              type="button"
-              fullWidth={false}
-              onClick={clearFilters}
-              Icon={FiX}
-            >
-              Clear all
-            </AuthButton>
-          )}
+         {(activeFilter !== 'All' || priceRange || searchQuery) && (
+  <button
+    type="button"
+    onClick={clearFilters}
+    className="flex items-center space-x-1 bg-white px-4 py-2 rounded-lg shadow-sm border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors"
+  >
+    <FiX />
+    <span>Clear all</span>
+  </button>
+)}
         </div>
       </div>
 
-      {/* Mobile Filters Dropdown */}
       {showFilters && (
         <div className="md:hidden bg-white p-4 rounded-lg shadow-md mb-6">
           <h3 className="font-medium mb-3">Category</h3>
@@ -77,7 +76,7 @@ const FilterControls = ({
         </div>
       )}
 
-      {/* Desktop Filters */}
+      
       <div className="hidden md:block">
         <div className="flex flex-wrap gap-3 mb-6">
           <span className="text-gray-600 self-center">Category:</span>
